@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "sf-artkampen",
+    "slug": "sf-artkampen",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "splash": {
+      "image": "./assets/images/sf-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff",
+      "width": 80
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
