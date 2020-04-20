@@ -9,6 +9,8 @@ import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import ForgotPassword from "./screens/ForgotPassword";
 import BottomTabNavigator from "./BottomTabNavigator";
+import ProfileScreen from "./screens/ProfileScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 
 const AuthStack = createStackNavigator();
 const AuthStackNavigator = () => (
@@ -21,7 +23,6 @@ const AuthStackNavigator = () => (
 );
 
 const Drawer = createDrawerNavigator();
-
 const AppDrawerNavigator = () => (
   <Drawer.Navigator>
     <Drawer.Screen name="TabBar" component={BottomTabNavigator} />
@@ -30,13 +31,13 @@ const AppDrawerNavigator = () => (
   </Drawer.Navigator>
 );
 
-export const AppNavigator = ({ isAuth, isLoading }) => {
+export const AppNavigator = ({ isAuth = true, isLoading }) => {
   return (
     <NavigationContainer>
       {isLoading ? (
         <AuthLoadingScreen />
       ) : isAuth ? (
-        <BottomTabNavigator />
+        <AppDrawerNavigator />
       ) : (
         <AuthStackNavigator />
       )}

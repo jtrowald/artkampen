@@ -1,31 +1,26 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import styled from "styled-components";
 
-export default class ForgotPassword extends React.Component {
-  handleRoute = async (destination) => {
-    await this.props.navigation.navigate(destination);
-  };
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.textStyle}>Forget password ?</Text>
-      </View>
-    );
-  }
-}
+const Wrapper = styled.View`
+  flex: 1;
+  background-color: #0090d2;
+  align-items: center;
+  justify-content: center;
+`;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#aa73b7",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonStyle: {
-    padding: 20,
-  },
-  textStyle: {
-    fontSize: 18,
-    padding: 10,
-  },
-});
+const Text = styled.Text`
+  font-size: 23px;
+  padding: 10px;
+  color: white;
+`;
+
+export const ForgotPassword = () => {
+  return (
+    <Wrapper>
+      <Text>Glömt lösen?</Text>
+    </Wrapper>
+  );
+};
+
+export default ForgotPassword;

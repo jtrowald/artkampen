@@ -1,13 +1,24 @@
 import React, { useState } from "react";
-import { AsyncStorage, Button, Text, View } from "react-native";
+import { AsyncStorage } from "react-native";
 
 import styled from "styled-components";
 import { Auth } from "aws-amplify";
+
 const StyledInput = styled.TextInput`
   height: 50px;
-  border-bottom-width: 2px;
-  border-bottom-color: green;
+  border-bottom-width: 3px;
+  border-bottom-color: white;
   margin: 20px;
+  color: white;
+`;
+
+const MainView = styled.View`
+  background-color: #0090d2;
+  flex: 1;
+`;
+
+const Button = styled.Button`
+  color: white;
 `;
 
 export const SignUp = () => {
@@ -33,26 +44,30 @@ export const SignUp = () => {
     }
   };
   return (
-    <View>
+    <MainView>
       <StyledInput
         onChangeText={(value) => setUserName(value)}
         placeholder="Användarnamn"
+        placeholderTextColor="white"
       />
       <StyledInput
         onChangeText={(value) => setPassword(value)}
         placeholder="Lösenord"
+        placeholderTextColor="white"
         secureTextEntry
       />
       <StyledInput
         onChangeText={(value) => setEmail(value)}
         placeholder="Email"
+        placeholderTextColor="white"
       />
       <StyledInput
         onChangeText={(value) => setMemberId(value)}
         placeholder="Medlems-id"
+        placeholderTextColor="white"
       />
-      <Button title="Skapa konto" onPress={() => signUp()} />
-    </View>
+      <Button color="white" title="Skapa konto" onPress={() => signUp()} />
+    </MainView>
   );
 };
 

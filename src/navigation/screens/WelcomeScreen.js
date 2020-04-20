@@ -1,5 +1,23 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { View } from "react-native";
+import styled from "styled-components";
+
+const Text = styled.Text`
+  font-size: 23px;
+  padding: 10px;
+  color: white;
+`;
+
+const TouchableOpacity = styled.TouchableOpacity`
+  padding: 20px;
+`;
+
+const Wrapper = styled.View`
+  flex: 1;
+  background-color: #0090d2;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default class WelcomeScreen extends React.Component {
   handleRoute = async (destination) => {
@@ -7,42 +25,23 @@ export default class WelcomeScreen extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <Wrapper>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("SignUp")}
-          style={styles.buttonStyle}
         >
-          <Text style={styles.textStyle}>Sign up</Text>
+          <Text>Skapa konto</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("SignIn")}
-          style={styles.buttonStyle}
         >
-          <Text style={styles.textStyle}>Sign in</Text>
+          <Text>Logga in</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("ForgotPassword")}
-          style={styles.buttonStyle}
         >
-          <Text style={styles.textStyle}>Forget password ?</Text>
+          <Text>Glömt lösenord?</Text>
         </TouchableOpacity>
-      </View>
+      </Wrapper>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#aa73b7",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonStyle: {
-    padding: 20,
-  },
-  textStyle: {
-    fontSize: 18,
-    padding: 10,
-  },
-});

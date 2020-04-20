@@ -3,11 +3,17 @@ import { TextInput, Button, Text, View } from "react-native";
 
 import styled from "styled-components";
 import { Auth } from "aws-amplify";
+
 const StyledInput = styled.TextInput`
   height: 50px;
-  border-bottom-width: 2px;
-  border-bottom-color: green;
+  border-bottom-width: 3px;
+  border-bottom-color: white;
   margin: 20px;
+`;
+
+const MainView = styled.View`
+  background-color: #0090d2;
+  flex: 1;
 `;
 
 export const SignIn = () => {
@@ -25,18 +31,20 @@ export const SignIn = () => {
       .catch((err) => console.log("Error signing in: ", err));
   };
   return (
-    <View>
+    <MainView>
       <StyledInput
         onChangeText={(value) => setUserName(value)}
         placeholder="Användarnamn"
+        placeholderTextColor="white"
       />
       <StyledInput
         onChangeText={(value) => setPassword(value)}
         placeholder="Lösenord"
         secureTextEntry
+        placeholderTextColor="white"
       />
-      <Button title="Logga in" onPress={() => SignIn()} />
-    </View>
+      <Button color="white" title="Logga in" onPress={() => SignIn()} />
+    </MainView>
   );
 };
 

@@ -1,13 +1,6 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, AsyncStorage } from "react-native";
+import { ActivityIndicator, AsyncStorage } from "react-native";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 export default class AuthLoadingScreen extends React.Component {
   componentDidMount = async () => {
     await this.loadApp();
@@ -18,7 +11,7 @@ export default class AuthLoadingScreen extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <ActivityIndicator />
       </View>
     );
