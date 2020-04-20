@@ -9,7 +9,7 @@ import SignUp from "./screens/SignUp";
 
 const LoginNavigator = (props, state) => {
   return (
-    <MainStack.Navigator headerMode="none">
+    <MainStack.Navigator headerMode="screen">
       <>
         <MainStack.Screen
           name="Login"
