@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Auth from "@aws-amplify/auth";
 
 const View = styled.View`
   flex: 1;

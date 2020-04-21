@@ -15,6 +15,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 const AuthStack = createStackNavigator();
 const AuthStackNavigator = () => (
   <AuthStack.Navigator>
+    <AuthStack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} />
     <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
     <AuthStack.Screen name="SignIn" component={SignIn} />
     <AuthStack.Screen name="SignUp" component={SignUp} />
@@ -31,16 +32,10 @@ const AppDrawerNavigator = () => (
   </Drawer.Navigator>
 );
 
-export const AppNavigator = ({ isAuth = true, isLoading }) => {
+export const AppNavigator = ({ isAuth = false, isLoading }) => {
   return (
     <NavigationContainer>
-      {isLoading ? (
-        <AuthLoadingScreen />
-      ) : isAuth ? (
-        <AppDrawerNavigator />
-      ) : (
-        <AuthStackNavigator />
-      )}
+      {isAuth ? <AppDrawerNavigator /> : <AuthStackNavigator />}
     </NavigationContainer>
   );
 };

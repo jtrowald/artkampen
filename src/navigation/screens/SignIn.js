@@ -16,18 +16,23 @@ const MainView = styled.View`
   flex: 1;
 `;
 
-export const SignIn = () => {
+export const SignIn = (props) => {
   const [userName, setUserName] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [memberId, setMemberId] = useState();
-
-  const SignIn = () => {
-    Auth.signIn({
+  const [user, setUser] = useState();
+  console.log(props);
+  const SignIn = async () => {
+    await Auth.signIn({
       username: userName,
       password: password,
     })
-      .then((res) => console.log("Signed in", res))
+      .then((user) => {
+        setUser(user);
+        console.log(user);
+        props.navigation.navigate("AuthLoadingScreen");
+      })
       .catch((err) => console.log("Error signing in: ", err));
   };
   return (
