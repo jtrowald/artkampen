@@ -20,23 +20,23 @@ import Auth from "@aws-amplify/auth";
 // }
 
 export const AuthLoadingScreen = (props) => {
-  [userToken, setUserToken] = useState();
+  [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
     loadApp();
-  }, [props, userToken]);
+  }, []);
 
   const loadApp = async () => {
     await Auth.currentAuthenticatedUser()
       .then((user) => {
+        // Auth.signOut();
         setUserToken({
           userToken: user.signInUserSession.accessToken.jwtToken,
         });
       })
       .catch((err) => console.log(err));
     console.log(userToken);
-    console.log(props.navigation);
-    //props.navigation.navigate(userToken ? "TabBar" : "Welcome");
+    props.navigation.navigate(userToken ? "TabBar" : "Welcome");
   };
 
   return (
