@@ -94,10 +94,6 @@ export const UploadPhotoScreen = (props) => {
   );
 };
 
-// HomeScreen.navigationOptionRs = {
-//   header: null,
-// };
-
 function DevelopmentModeNotice() {
   if (__DEV__) {
     const learnMoreButton = (
@@ -117,18 +113,6 @@ function DevelopmentModeNotice() {
       </Text>
     );
   }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    "https://docs.expo.io/versions/latest/workflow/development-mode/"
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    "https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change"
-  );
 }
 
 export default UploadPhotoScreen;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AsyncStorage } from "react-native";
 
 import styled from "styled-components";
-import { Auth } from "aws-amplify";
+import { useAppContext } from "../../context/AppContext";
 
 const StyledInput = styled.TextInput`
   height: 50px;
@@ -22,26 +22,14 @@ const Button = styled.Button`
 `;
 
 export const SignUp = () => {
-  const [userName, setUserName] = useState();
+  const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [memberId, setMemberId] = useState();
+  const context = useAppContext();
 
   const signUp = async () => {
-    try {
-      const user = Auth.signUp({
-        username: userName,
-        password: password,
-        attributes: {
-          email: email,
-        },
-      });
-      await AsyncStorage.setItem("userToken", "123456789");
-      await console.log(user);
-      this.props.navigation.navigate("Authloading");
-    } catch (error) {
-      console.log("error signing up:", error);
-    }
+    context.signUp(username, password, email);
   };
   return (
     <MainView>

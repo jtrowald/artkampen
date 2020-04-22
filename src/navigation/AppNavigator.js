@@ -11,11 +11,12 @@ import ForgotPassword from "./screens/ForgotPassword";
 import BottomTabNavigator from "./BottomTabNavigator";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import { useAppContext } from "../context/AppContext";
 
 const AuthStack = createStackNavigator();
 const AuthStackNavigator = () => (
   <AuthStack.Navigator>
-    <AuthStack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} />
+    {/* <AuthStack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} /> */}
     <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
     <AuthStack.Screen name="SignIn" component={SignIn} />
     <AuthStack.Screen name="SignUp" component={SignUp} />
@@ -33,9 +34,14 @@ const AppDrawerNavigator = () => (
 );
 
 export const AppNavigator = ({ isAuth = false, isLoading }) => {
+  const context = useAppContext();
   return (
     <NavigationContainer>
-      {isAuth ? <AppDrawerNavigator /> : <AuthStackNavigator />}
+      {context.isAuthenticated ? (
+        <AppDrawerNavigator />
+      ) : (
+        <AuthStackNavigator />
+      )}
     </NavigationContainer>
   );
 };

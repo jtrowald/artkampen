@@ -3,7 +3,7 @@ import * as React from "react";
 
 import TabBarIcon from "../components/TabBarIcon";
 import UploadPhotoScreen from "./screens/UploadPhotoScreen";
-import LinksScreen from "./screens/LinksScreen";
+import CompetitionScreen from "./screens/CompetitionScreen";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
@@ -13,7 +13,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
-        name="Home"
+        name="Hem"
         component={UploadPhotoScreen}
         options={{
           title: "Ta foto",
@@ -23,10 +23,10 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
+        name="Ställning"
+        component={CompetitionScreen}
         options={{
-          title: "Resources",
+          title: "Tävling",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -43,7 +43,7 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case "Home":
       return "Hej Louise!";
-    case "Links":
-      return "Links to learn more";
+    case "Ställning":
+      return "Ställning i tävlingen";
   }
 }

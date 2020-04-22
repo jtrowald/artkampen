@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { SplashScreen } from "expo";
-import { withAuthenticator } from "aws-amplify-react-native";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Amplify from "aws-amplify";
 import aws_exports from "./aws-exports";
 import AppNavigator from "./src/navigation/AppNavigator";
+import { AppProvider } from "./src/context/AppContext";
 
 Amplify.configure(aws_exports);
 const Stack = createStackNavigator();
@@ -24,7 +24,7 @@ export function App(props) {
         SplashScreen.preventAutoHide();
 
         // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
+        //setInitialNavigationState(await getInitialState());
 
         // Load fonts
         await Font.loadAsync({
@@ -47,10 +47,12 @@ export function App(props) {
     return null;
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
+      <AppProvider>
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+      </AppProvider>
     );
   }
 }

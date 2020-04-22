@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextInput, Button, Text, View } from "react-native";
 
 import styled from "styled-components";
-import { Auth } from "aws-amplify";
+import { useAppContext } from "../../context/AppContext";
 
 const StyledInput = styled.TextInput`
   height: 50px;
@@ -17,23 +17,14 @@ const MainView = styled.View`
 `;
 
 export const SignIn = (props) => {
-  const [userName, setUserName] = useState();
+  const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const [memberId, setMemberId] = useState();
   const [user, setUser] = useState();
-  console.log(props);
-  const SignIn = async () => {
-    await Auth.signIn({
-      username: userName,
-      password: password,
-    })
-      .then((user) => {
-        setUser(user);
-        console.log(user);
-        props.navigation.navigate("AuthLoadingScreen");
-      })
-      .catch((err) => console.log("Error signing in: ", err));
+  const context = useAppContext();
+  const signIn = () => {
+    context.signIn(username, password);
   };
   return (
     <MainView>
@@ -48,7 +39,7 @@ export const SignIn = (props) => {
         secureTextEntry
         placeholderTextColor="white"
       />
-      <Button color="white" title="Logga in" onPress={() => SignIn()} />
+      <Button color="white" title="Logga in" onPress={() => signIn()} />
     </MainView>
   );
 };
