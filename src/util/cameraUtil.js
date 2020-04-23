@@ -1,5 +1,7 @@
+import * as ImagePicker from "expo-image-picker";
+
 //Image picker
-const openImagePickerAsync = async () => {
+export const openImagePickerAsync = async () => {
   let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
   if (permissionResult.granted === false) {

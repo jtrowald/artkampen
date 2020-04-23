@@ -2,7 +2,6 @@ import { EvilIcons, Entypo } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import styled from "styled-components/native";
 import { getUniversalHeight, getUniversalWidth } from "../../util/util";
 import HeaderBar from "./HeaderBar";
@@ -51,8 +50,8 @@ const Icon = styled(Entypo)`
 export const UploadPhotoScreen = (props) => {
   const [selectedImage, setSelectedImage] = React.useState(null);
 
-  const imageFromPicker = () => {
-    const image = openImagePickerAsync();
+  const imageFromPicker = async () => {
+    const image = await openImagePickerAsync();
     setSelectedImage(image);
   };
 
@@ -74,13 +73,13 @@ export const UploadPhotoScreen = (props) => {
       <HeaderBar {...props} />
       <MainView>
         <Buttons>
-          <TouchableOpacity onPress={() => openImagePickerAsync()}>
+          <TouchableOpacity onPress={() => imageFromPicker()}>
             <ButtonView>
               <Icon name={"images"} size={20} />
               <ButtonText>Välj bild</ButtonText>
             </ButtonView>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => openImagePickerAsync()}>
+          <TouchableOpacity onPress={() => console.log("hej")}>
             <ButtonView>
               <Icon name={"camera"} size={20} />
               <ButtonText>Ta en bild</ButtonText>
