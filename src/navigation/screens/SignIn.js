@@ -32,12 +32,14 @@ export const SignIn = (props) => {
         onChangeText={(value) => setUserName(value)}
         placeholder="Användarnamn"
         placeholderTextColor="white"
+        autoCompleteType="username"
       />
       <StyledInput
         onChangeText={(value) => setPassword(value)}
         placeholder="Lösenord"
         secureTextEntry
         placeholderTextColor="white"
+        autoCompleteType="password"
       />
       <Button color="white" title="Logga in" onPress={() => signIn()} />
     </MainView>

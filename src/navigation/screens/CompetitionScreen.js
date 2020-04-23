@@ -8,7 +8,6 @@ export const CompetitionScreen = () => {
       <View>
         <Text>Tävling</Text>
       </View>
-      }
     </ScrollView>
   );
 };

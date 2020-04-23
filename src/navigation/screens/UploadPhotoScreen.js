@@ -1,96 +1,101 @@
-import * as WebBrowser from "expo-web-browser";
-import React, { useState } from "react";
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { EvilIcons, Entypo } from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
+import React from "react";
+import { Text, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import styled from "styled-components/native";
+import { getUniversalHeight, getUniversalWidth } from "../../util/util";
+import HeaderBar from "./HeaderBar";
+import Storage from "@aws-amplify/storage";
+import { openImagePickerAsync } from "../../util/cameraUtil";
 
-const MainView = styled.View`
+const Wrapper = styled.SafeAreaView`
   display: flex;
   flex: 1;
-  align-items: center;
-  background-color: #fff;
-  justify-content: center;
+  flex-direction: column;
 `;
+
+const MainView = styled.View``;
+
+const Buttons = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+`;
+
 const ButtonView = styled.View`
-  height: 50px;
-  width: 300px;
-  background-color: blue;
+  height: ${getUniversalHeight(50)}px;
+  background-color: ${Colors.sfBlue};
   border-radius: 10px;
-  margin: 30px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
 
 const ButtonText = styled.Text`
+  margin-horizontal: 5px;
+  margin-right: 10px;
   color: #fff;
 `;
 const StyledImage = styled.Image`
   width: 300px;
-  height: 300px;
+  height: ${getUniversalHeight(300)}px;
   resize-mode: contain;
 `;
 
-let openImagePickerAsync = async () => {
-  let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-  if (permissionResult.granted === false) {
-    alert("Permission to access camera roll is required!");
-    return;
-  }
-
-  let pickerResult = await ImagePicker.launchImageLibraryAsync();
-
-  if (pickerResult.cancelled === true) {
-    return;
-  }
-
-  setSelectedImage({ localUri: pickerResult.uri });
-};
+const Icon = styled(Entypo)`
+  margin-horizontal: 5px;
+  margin-left: 10px;
+  color: white;
+`;
 
 export const UploadPhotoScreen = (props) => {
-  console.log(props);
   const [selectedImage, setSelectedImage] = React.useState(null);
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
+  const imageFromPicker = () => {
+    const image = openImagePickerAsync();
+    setSelectedImage(image);
+  };
+
+  const handleImagePicked = async () => {
+    const imageName = selectedImage.uri.replace(/^.*[\\\/]/, "");
+    const access = { level: "public", contentType: "image/jpeg" };
+    const imageData = await fetch(selectedImage.uri);
+    const blobData = await imageData.blob();
+
+    try {
+      await Storage.put(imageName, blobData, access);
+    } catch (err) {
+      console.log("error: ", err);
     }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-    console.log(selectedImage);
-
-    setSelectedImage({ localUri: pickerResult.uri });
   };
 
   return (
-    <MainView>
-      <TouchableOpacity onPress={() => openImagePickerAsync()}>
-        <ButtonView>
-          <ButtonText>Ladda upp en bild!</ButtonText>
-        </ButtonView>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}>
-        <ButtonView>
-          <ButtonText>Toggle drawer</ButtonText>
-        </ButtonView>
-      </TouchableOpacity>
-      <StyledImage source={{ uri: selectedImage?.localUri }} />
-    </MainView>
+    <Wrapper>
+      <HeaderBar {...props} />
+      <MainView>
+        <Buttons>
+          <TouchableOpacity onPress={() => openImagePickerAsync()}>
+            <ButtonView>
+              <Icon name={"images"} size={20} />
+              <ButtonText>Välj bild</ButtonText>
+            </ButtonView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => openImagePickerAsync()}>
+            <ButtonView>
+              <Icon name={"camera"} size={20} />
+              <ButtonText>Ta en bild</ButtonText>
+            </ButtonView>
+          </TouchableOpacity>
+        </Buttons>
+        <TouchableOpacity onPress={() => handleImagePicked()}>
+          <ButtonView>
+            <Icon name={"camera"} size={20} />
+            <ButtonText>Ladda upp</ButtonText>
+          </ButtonView>
+        </TouchableOpacity>
+        <StyledImage source={{ uri: selectedImage?.uri }} />
+      </MainView>
+    </Wrapper>
   );
 };
 

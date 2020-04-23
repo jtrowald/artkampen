@@ -6,5 +6,28 @@
 			"dependsOn": [],
 			"customAuth": false
 		}
+	},
+	"storage": {
+		"expoFishBucket": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"api": {
+		"sfartkampenapi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authsfartkampen167d842e"
+						}
+					}
+				}
+			}
+		}
 	}
 }
