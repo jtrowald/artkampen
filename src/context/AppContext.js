@@ -58,12 +58,13 @@ export const AppProvider = (props) => {
       .catch((err) => console.log("Error signing in: ", err));
   };
 
-  const signUp = async (username, password, email) => {
+  const signUp = async (username, password, email, memberId) => {
     await Auth.signUp({
       username: username,
       password: password,
       attributes: {
         email: email,
+        "custom:memberId": `${memberId}`,
       },
     })
       .then((user) => {

@@ -26,3 +26,88 @@ export const listFishs = /* GraphQL */ `
     }
   }
 `;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      confirmed
+      contributions {
+        items {
+          id
+          accepted
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        confirmed
+        contributions {
+          nextToken
+        }
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getContribution = /* GraphQL */ `
+  query GetContribution($id: ID!) {
+    getContribution(id: $id) {
+      id
+      createdBy {
+        id
+        username
+        confirmed
+        contributions {
+          nextToken
+        }
+        owner
+      }
+      fish {
+        id
+        name
+        description
+      }
+      accepted
+    }
+  }
+`;
+export const listContributions = /* GraphQL */ `
+  query ListContributions(
+    $filter: ModelContributionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listContributions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        createdBy {
+          id
+          username
+          confirmed
+          owner
+        }
+        fish {
+          id
+          name
+          description
+        }
+        accepted
+      }
+      nextToken
+    }
+  }
+`;

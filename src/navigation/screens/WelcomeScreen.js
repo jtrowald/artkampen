@@ -27,19 +27,9 @@ export default class WelcomeScreen extends React.Component {
     return (
       <Wrapper>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("SignUp")}
-        >
-          <Text>Skapa konto</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           onPress={() => this.props.navigation.navigate("SignIn")}
         >
           <Text>Logga in</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("ForgotPassword")}
-        >
-          <Text>Glömt lösenord?</Text>
         </TouchableOpacity>
       </Wrapper>
     );

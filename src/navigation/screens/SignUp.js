@@ -29,7 +29,7 @@ export const SignUp = () => {
   const context = useAppContext();
 
   const signUp = async () => {
-    context.signUp(username, password, email);
+    context.signUp(username, password, email, memberId);
   };
   return (
     <MainView>

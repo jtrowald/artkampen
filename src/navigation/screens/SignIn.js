@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextInput, Button, Text, View } from "react-native";
+import { TouchableOpacity, Button, View } from "react-native";
 
 import styled from "styled-components";
 import { useAppContext } from "../../context/AppContext";
@@ -11,6 +11,17 @@ const StyledInput = styled.TextInput`
   margin: 20px;
 `;
 
+const Text = styled.Text`
+  font-size: 12px;
+  padding: 10px;
+  color: white;
+`;
+
+const ButtonView = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+`;
+
 const MainView = styled.View`
   background-color: #0090d2;
   flex: 1;
@@ -19,9 +30,9 @@ const MainView = styled.View`
 export const SignIn = (props) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
-  const [memberId, setMemberId] = useState();
-  const [user, setUser] = useState();
+  // const [email, setEmail] = useState();
+  // const [memberId, setMemberId] = useState();
+  // const [user, setUser] = useState();
   const context = useAppContext();
   const signIn = () => {
     context.signIn(username, password);
@@ -41,6 +52,18 @@ export const SignIn = (props) => {
         placeholderTextColor="white"
         autoCompleteType="password"
       />
+      <ButtonView>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate("SignUp")}
+        >
+          <Text>Skapa konto</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate("ForgotPassword")}
+        >
+          <Text>Glömt lösenord?</Text>
+        </TouchableOpacity>
+      </ButtonView>
       <Button color="white" title="Logga in" onPress={() => signIn()} />
     </MainView>
   );

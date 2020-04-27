@@ -9,6 +9,7 @@ export default {
   errorText: "#fff",
   warningBackground: "#EAEB5E",
   warningText: "#666804",
+  successBackground: "#5ac18e",
   noticeBackground: tintColor,
   noticeText: "#fff",
   sfBlue: "#0090d2",
