@@ -11,6 +11,7 @@ import ForgotPassword from "./screens/ForgotPassword";
 import BottomTabNavigator from "./BottomTabNavigator";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import LoadingModal from "./LoadingModal";
 import { useAppContext } from "../context/AppContext";
 
 const AuthStack = createStackNavigator();
@@ -30,13 +31,20 @@ const AppDrawerNavigator = () => (
     <Drawer.Screen name="TabBar" component={BottomTabNavigator} />
     <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
     <Drawer.Screen name="Settings" component={SettingsScreen} />
+    <Drawer.Screen name="LoadingModal" component={LoadingModal} />
   </Drawer.Navigator>
 );
 
 export const AppNavigator = ({ isAuth = false, isLoading }) => {
   const context = useAppContext();
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        colors: {
+          background: "transparent",
+        },
+      }}
+    >
       {context.isAuthenticated ? (
         <AppDrawerNavigator />
       ) : (

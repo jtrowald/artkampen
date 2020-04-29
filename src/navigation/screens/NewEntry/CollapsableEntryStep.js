@@ -7,7 +7,7 @@ import { getUniversalHeight, getUniversalWidth } from "../../../util/util";
 const Wrapper = styled.View`
   display: flex;
   background-color: ${Colors.sfBlue};
-  margin: 20px;
+  margin: 10px;
   justify-content: flex-start;
 `;
 
@@ -67,10 +67,9 @@ const CollapsableEntryStep = ({ step, children }) => {
           <Text>{step}</Text>
         </NumberView>
         <TextView>
-          <Text>{labels[step]}</Text>
+          <Text>{labels[step - 1]}</Text>
         </TextView>
       </TopView>
-      <ContentView>{children}</ContentView>
     </Wrapper>
   );
 };

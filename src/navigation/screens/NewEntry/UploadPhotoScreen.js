@@ -1,13 +1,18 @@
 import { EvilIcons, Entypo } from "@expo/vector-icons";
 import Colors from "../../../constants/Colors";
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, Animated } from "react-native";
+import { Text, Animated } from "react-native";
 import styled from "styled-components/native";
 import { getUniversalHeight, getUniversalWidth } from "../../../util/util";
 import Storage from "@aws-amplify/storage";
-import { openImagePickerAsync } from "../../../util/cameraUtil";
+import {
+  openImagePickerAsync,
+  openCameraAsync,
+} from "../../../util/cameraUtil";
 
-const Wrapper = styled.SafeAreaView`
+//const Wrapper = styled.SafeAreaView``;
+
+const MainView = styled.View`
   display: flex;
   flex-direction: column
   align-items: center;
@@ -15,7 +20,6 @@ const Wrapper = styled.SafeAreaView`
 
 const ImageView = styled.View`
   width: ${getUniversalWidth(300)}px;
-  height: ${getUniversalHeight(300)}px;
   border-color: white;
   border-width: 2px;
   border-radius: 5px;
@@ -35,13 +39,13 @@ const ButtonView = styled.View`
   justify-content: space-between;
 `;
 
-const Button = styled.View`
-  height: ${getUniversalHeight(50)}px;
+const TouchableOpacity = styled.TouchableOpacity`
   background-color: ${Colors.sfBlue};
   border-radius: 10px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 `;
 
 const ButtonText = styled.Text`
@@ -56,8 +60,11 @@ const Icon = styled(Entypo)`
   color: white;
 `;
 
-export const UploadPhotoScreen = ({ truncated }) => {
-  const [selectedImage, setSelectedImage] = React.useState(null);
+export const UploadPhotoScreen = ({
+  truncated,
+  selectedImage,
+  setSelectedImage,
+}) => {
   const [maxHeightAnim] = useState(new Animated.Value(truncated ? 0 : 10000));
 
   const imageFromPicker = async () => {
@@ -65,23 +72,15 @@ export const UploadPhotoScreen = ({ truncated }) => {
     setSelectedImage(image);
   };
 
-  const handleImagePicked = async () => {
-    const imageName = selectedImage.uri.replace(/^.*[\\\/]/, "");
-    const access = { level: "public", contentType: "image/jpeg" };
-    const imageData = await fetch(selectedImage.uri);
-    const blobData = await imageData.blob();
-
-    try {
-      await Storage.put(imageName, blobData, access);
-    } catch (err) {
-      console.log("error: ", err);
-    }
+  const imageFromCamera = async () => {
+    const image = await openCameraAsync();
+    setSelectedImage(image);
   };
 
   React.useEffect(() => {
     if (!truncated) {
       Animated.timing(maxHeightAnim, {
-        toValue: 10000,
+        toValue: 5000,
         duration: 500,
       }).start();
     } else {
@@ -91,29 +90,43 @@ export const UploadPhotoScreen = ({ truncated }) => {
       }).start();
     }
   });
+  // <Wrapper as={Animated.View} style={{ maxHeight: maxHeightAnim }}>
 
-  console.log(maxHeightAnim);
+  const imageHeight = maxHeightAnim.interpolate({
+    inputRange: [0, 5000],
+    outputRange: [0, getUniversalWidth(300)],
+  });
+
+  const componentsOpacity = maxHeightAnim.interpolate({
+    inputRange: [0, 5000],
+    outputRange: [0, 1],
+  });
 
   return (
-    <Wrapper as={Animated.View} style={{ maxHeight: maxHeightAnim }}>
-      <ImageView>
-        <StyledImage source={{ uri: selectedImage?.uri }} />
+    <MainView as={Animated.View} style={{ maxHeight: maxHeightAnim }}>
+      <ImageView
+        as={Animated.View}
+        style={{ height: imageHeight, opacity: componentsOpacity }}
+      >
+        <StyledImage
+          source={
+            selectedImage !== null
+              ? { uri: selectedImage?.uri }
+              : require("../../../../assets/images/noPicSelected.png")
+          }
+        />
       </ImageView>
-      <ButtonView>
+      <ButtonView as={Animated.View} style={{ opacity: componentsOpacity }}>
         <TouchableOpacity onPress={() => imageFromPicker()}>
-          <Button>
-            <Icon name={"images"} size={20} />
-            <ButtonText>Välj bild</ButtonText>
-          </Button>
+          <Icon name={"images"} size={20} />
+          <ButtonText>Välj bild</ButtonText>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("hej")}>
-          <Button>
-            <Icon name={"camera"} size={20} />
-            <ButtonText>Ta en bild</ButtonText>
-          </Button>
+        <TouchableOpacity onPress={() => imageFromCamera()}>
+          <Icon name={"camera"} size={20} />
+          <ButtonText>Ta en bild</ButtonText>
         </TouchableOpacity>
       </ButtonView>
-    </Wrapper>
+    </MainView>
   );
 };
 

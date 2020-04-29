@@ -7,6 +7,7 @@ export const getFish = /* GraphQL */ `
       id
       name
       description
+      owner
     }
   }
 `;
@@ -21,6 +22,7 @@ export const listFishs = /* GraphQL */ `
         id
         name
         description
+        owner
       }
       nextToken
     }
@@ -35,6 +37,7 @@ export const getUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -80,7 +83,9 @@ export const getContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }
@@ -104,7 +109,9 @@ export const listContributions = /* GraphQL */ `
           id
           name
           description
+          owner
         }
+        imageKey
         accepted
       }
       nextToken

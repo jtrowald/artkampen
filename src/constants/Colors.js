@@ -12,5 +12,6 @@ export default {
   successBackground: "#5ac18e",
   noticeBackground: tintColor,
   noticeText: "#fff",
+  lightGrey: "#c4c5c7",
   sfBlue: "#0090d2",
 };

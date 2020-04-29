@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TouchableOpacity, Button, View } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
 import { useAppContext } from "../../context/AppContext";
 
@@ -30,6 +30,7 @@ const MainView = styled.View`
 export const SignIn = (props) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const navigation = useNavigation();
   // const [email, setEmail] = useState();
   // const [memberId, setMemberId] = useState();
   // const [user, setUser] = useState();
@@ -53,14 +54,10 @@ export const SignIn = (props) => {
         autoCompleteType="password"
       />
       <ButtonView>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("SignUp")}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
           <Text>Skapa konto</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("ForgotPassword")}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <Text>Glömt lösenord?</Text>
         </TouchableOpacity>
       </ButtonView>

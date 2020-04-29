@@ -4,6 +4,10 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import Auth from "@aws-amplify/auth";
+import { API, graphqlOperation } from "aws-amplify";
+
+import { getUser as GetUser } from "../graphql/queries";
+import { createUser as CreateUser } from "../graphql/mutations";
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -25,14 +29,14 @@ export const AppProvider = (props) => {
     });
 
     Auth.currentAuthenticatedUser()
-      .then((user) => {
+      .then(async (user) => {
         setUserToken({
           userToken: user.signInUserSession.accessToken.jwtToken,
         });
         setIsReady(true);
-        console.log("USERTOKEN: ", userToken);
         setIsAuthenticated(true);
         setAuthUser(user.signInUserSession.accessToken.payload);
+        getCurrentDBUser(user);
       })
       .catch((err) => console.log("AuthenticationError: ", err));
   }, []);
@@ -67,11 +71,30 @@ export const AppProvider = (props) => {
         "custom:memberId": `${memberId}`,
       },
     })
-      .then((user) => {
+      .then(async (user) => {
+        console.log("USER: ", user.user);
         setAuthUser(user);
         setIsAuthenticated(true);
       })
-      .catch((err) => console.log("Error signing in: ", err));
+      .catch((err) => console.log("Error signing up: ", err));
+  };
+
+  const getCurrentDBUser = async (user) => {
+    await API.graphql(graphqlOperation(GetUser, { id: user.attributes.sub }))
+      .then((result) => console.log("RESULT", result))
+      .catch((err) => createDBUser(user));
+  };
+
+  const createDBUser = async (user) => {
+    await API.graphql(
+      graphqlOperation(CreateUser, {
+        input: {
+          username: user.username,
+          id: user.attributes.sub,
+          confirmed: false,
+        },
+      })
+    ).catch((err) => console.log("Error creating db user: ", err));
   };
 
   return (

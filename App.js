@@ -1,3 +1,7 @@
+import {
+  ActionSheetProvider,
+  connectActionSheet,
+} from "@expo/react-native-action-sheet";
 import * as React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { SplashScreen } from "expo";
@@ -12,6 +16,8 @@ import { AppProvider } from "./src/context/AppContext";
 
 Amplify.configure(aws_exports);
 const Stack = createStackNavigator();
+
+const AppWithActionSheet = connectActionSheet(App);
 
 export function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -64,4 +70,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const AppContainer = () => (
+  <ActionSheetProvider>
+    <AppWithActionSheet />
+  </ActionSheetProvider>
+);
+
+export default AppContainer;

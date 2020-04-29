@@ -2,29 +2,32 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateFish = /* GraphQL */ `
-  subscription OnCreateFish {
-    onCreateFish {
+  subscription OnCreateFish($owner: String) {
+    onCreateFish(owner: $owner) {
       id
       name
       description
+      owner
     }
   }
 `;
 export const onUpdateFish = /* GraphQL */ `
-  subscription OnUpdateFish {
-    onUpdateFish {
+  subscription OnUpdateFish($owner: String) {
+    onUpdateFish(owner: $owner) {
       id
       name
       description
+      owner
     }
   }
 `;
 export const onDeleteFish = /* GraphQL */ `
-  subscription OnDeleteFish {
-    onDeleteFish {
+  subscription OnDeleteFish($owner: String) {
+    onDeleteFish(owner: $owner) {
       id
       name
       description
+      owner
     }
   }
 `;
@@ -37,6 +40,7 @@ export const onCreateUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -54,6 +58,7 @@ export const onUpdateUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -71,6 +76,7 @@ export const onDeleteUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -96,7 +102,9 @@ export const onCreateContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }
@@ -118,7 +126,9 @@ export const onUpdateContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }
@@ -140,7 +150,9 @@ export const onDeleteContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }

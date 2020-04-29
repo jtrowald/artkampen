@@ -53,7 +53,19 @@ export const DevScreen = (props) => {
     setAllFishes(updatedFishes);
   };
 
-  console.log(allFishes);
+  const createFish = async () => {
+    const fish = { name: "Aborre", description: "Liten fisk" };
+
+    try {
+      const newFish = await API.graphql(
+        graphqlOperation(CreateFish, { input: fish })
+      );
+      console.log("item created!", newFish);
+    } catch (err) {
+      console.log("error creating talk...", err);
+    }
+  };
+
   return (
     <View>
       <TextInput

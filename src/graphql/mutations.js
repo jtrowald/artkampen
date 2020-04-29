@@ -10,6 +10,7 @@ export const createFish = /* GraphQL */ `
       id
       name
       description
+      owner
     }
   }
 `;
@@ -22,6 +23,7 @@ export const updateFish = /* GraphQL */ `
       id
       name
       description
+      owner
     }
   }
 `;
@@ -34,6 +36,7 @@ export const deleteFish = /* GraphQL */ `
       id
       name
       description
+      owner
     }
   }
 `;
@@ -49,6 +52,7 @@ export const createUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -69,6 +73,7 @@ export const updateUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -89,6 +94,7 @@ export const deleteUser = /* GraphQL */ `
       contributions {
         items {
           id
+          imageKey
           accepted
         }
         nextToken
@@ -117,7 +123,9 @@ export const createContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }
@@ -142,7 +150,9 @@ export const updateContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }
@@ -167,7 +177,9 @@ export const deleteContribution = /* GraphQL */ `
         id
         name
         description
+        owner
       }
+      imageKey
       accepted
     }
   }

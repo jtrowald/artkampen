@@ -3,7 +3,7 @@ type Fish
   @auth(
     rules: [
       { allow: groups, groups: ["Admin"] }
-      { allow: owner, operations: [read] }
+      { allow: owner }
       { allow: private, operations: [read] }
     ]
   ) {
@@ -31,6 +31,7 @@ type Contribution @model {
   id: ID!
   createdBy: User @connection(name: "UserContributions")
   fish: Fish! @connection
+  imageKey: String!
   accepted: Boolean
     @auth(
       rules: [

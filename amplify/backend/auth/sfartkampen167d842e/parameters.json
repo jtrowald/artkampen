@@ -1,6 +1,6 @@
 {
     "identityPoolName": "sfartkampen167d842e_identitypool_167d842e",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "sfartk167d842e",
     "userPoolName": "sfartkampen167d842e_userpool_167d842e",
     "autoVerifiedAttributes": [

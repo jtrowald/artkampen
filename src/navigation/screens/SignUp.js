@@ -37,17 +37,20 @@ export const SignUp = () => {
         onChangeText={(value) => setUserName(value)}
         placeholder="Användarnamn"
         placeholderTextColor="white"
+        autoCompleteType="username"
       />
       <StyledInput
         onChangeText={(value) => setPassword(value)}
         placeholder="Lösenord"
         placeholderTextColor="white"
         secureTextEntry
+        autoCompleteType="password"
       />
       <StyledInput
         onChangeText={(value) => setEmail(value)}
         placeholder="Email"
         placeholderTextColor="white"
+        autoCompleteType="email"
       />
       <StyledInput
         onChangeText={(value) => setMemberId(value)}
