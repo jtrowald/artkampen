@@ -1,10 +1,11 @@
-import { useActionSheet } from "@expo/react-native-action-sheet";
-import React, { useState, useEffect } from "react";
-import { Animated } from "react-native";
-import styled from "styled-components";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { getUniversalHeight, getUniversalWidth } from "../../../util/util";
-import Colors from "../../../constants/Colors";
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import styled from 'styled-components';
+
+import Colors from '../../../constants/Colors';
+import { getUniversalWidth } from '../../../util/util';
+import { useNewEntryContext } from '../../../context/NewEntryContext';
 
 const MainView = styled.View`
   display: flex;
@@ -40,37 +41,43 @@ const StyledIcon = styled(MaterialCommunityIcons)`
   margin-right: ${getUniversalWidth(10)}px;
 `;
 
-export const SelectFishView = ({
-  fishes,
-  fishOptions,
-  selectedFishIndex,
-  setSelectedFishIndex,
-}) => {
+export const SelectFishView = () => {
+  const {
+    fishes,
+    fishOptions,
+    selectedFishIndex,
+    setSelectedFishIndex,
+  } = useNewEntryContext();
   const { showActionSheetWithOptions } = useActionSheet();
 
   const selectFish = () => {
-    console.log("FISH", fishOptions.length);
     const cancelButtonIndex = fishOptions.length - 1;
-    console.log(cancelButtonIndex);
     showActionSheetWithOptions(
       {
         options: fishOptions,
         cancelButtonIndex,
       },
       (buttonIndex) => {
-        if (buttonIndex !== cancelButtonIndex)
+        if (buttonIndex !== cancelButtonIndex) {
           setSelectedFishIndex(buttonIndex);
-      }
+        }
+      },
     );
   };
+  console.log(fishes[selectedFishIndex]?.name);
   return (
     <MainView>
       <SelectButton onPress={() => selectFish()}>
         <SelectButtonView>
-          <Text>{selectedFishIndex || "Välj fisk"}</Text>
-          <StyledIcon name={"fish"} size={25} />
+          <Text>
+            {(selectedFishIndex !== null && fishes[selectedFishIndex]?.name) ||
+              'Välj fisk'}
+          </Text>
+          <StyledIcon name="fish" size={25} />
         </SelectButtonView>
       </SelectButton>
     </MainView>
   );
 };
+
+export default SelectFishView;

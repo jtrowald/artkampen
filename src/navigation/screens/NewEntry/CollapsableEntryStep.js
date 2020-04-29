@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Colors from "../../../constants/Colors";
-import { getUniversalHeight, getUniversalWidth } from "../../../util/util";
+import Colors from '../../../constants/Colors';
+import { getUniversalHeight, getUniversalWidth } from '../../../util/util';
 
 const Wrapper = styled.View`
   display: flex;
@@ -56,9 +56,9 @@ const Text = styled.Text`
 
 const ContentView = styled.View``;
 
-const labels = ["Välj fisk", "Välj bild", "Ladda upp"];
+const labels = ['Välj fisk', 'Välj bild', 'Ladda upp'];
 
-const CollapsableEntryStep = ({ step, children }) => {
+export const CollapsableEntryStep = ({ step, children }) => {
   return (
     <Wrapper>
       <TopView>

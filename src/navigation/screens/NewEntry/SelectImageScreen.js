@@ -1,16 +1,15 @@
-import { EvilIcons, Entypo } from "@expo/vector-icons";
-import Colors from "../../../constants/Colors";
-import React, { useState, useEffect } from "react";
-import { Text, Animated } from "react-native";
-import styled from "styled-components/native";
-import { getUniversalHeight, getUniversalWidth } from "../../../util/util";
-import Storage from "@aws-amplify/storage";
-import {
-  openImagePickerAsync,
-  openCameraAsync,
-} from "../../../util/cameraUtil";
+import { Entypo } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Animated, Text } from 'react-native';
+import styled from 'styled-components/native';
 
-//const Wrapper = styled.SafeAreaView``;
+import Colors from '../../../constants/Colors';
+import { getUniversalHeight, getUniversalWidth } from '../../../util/util';
+import {
+  openCameraAsync,
+  openImagePickerAsync,
+} from '../../../util/cameraUtil';
+import { useNewEntryContext } from '../../../context/NewEntryContext';
 
 const MainView = styled.View`
   display: flex;
@@ -60,13 +59,17 @@ const Icon = styled(Entypo)`
   color: white;
 `;
 
-export const UploadPhotoScreen = ({
-  truncated,
-  selectedImage,
-  setSelectedImage,
-}) => {
-  const [maxHeightAnim] = useState(new Animated.Value(truncated ? 0 : 10000));
+const noPicImage = require('../../../../assets/images/noPicSelected.png');
 
+export const SelectImageScreen = () => {
+  const {
+    selectedFishIndex,
+    selectedImage,
+    setSelectedImage,
+  } = useNewEntryContext();
+  const truncated = selectedFishIndex === null;
+  const [maxHeightAnim] = useState(new Animated.Value(truncated ? 0 : 10000));
+  console.log(selectedFishIndex);
   const imageFromPicker = async () => {
     const image = await openImagePickerAsync();
     setSelectedImage(image);
@@ -110,19 +113,17 @@ export const UploadPhotoScreen = ({
       >
         <StyledImage
           source={
-            selectedImage !== null
-              ? { uri: selectedImage?.uri }
-              : require("../../../../assets/images/noPicSelected.png")
+            selectedImage !== null ? { uri: selectedImage?.uri } : noPicImage
           }
         />
       </ImageView>
       <ButtonView as={Animated.View} style={{ opacity: componentsOpacity }}>
         <TouchableOpacity onPress={() => imageFromPicker()}>
-          <Icon name={"images"} size={20} />
+          <Icon name="images" size={20} />
           <ButtonText>Välj bild</ButtonText>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => imageFromCamera()}>
-          <Icon name={"camera"} size={20} />
+          <Icon name="camera" size={20} />
           <ButtonText>Ta en bild</ButtonText>
         </TouchableOpacity>
       </ButtonView>
@@ -151,4 +152,4 @@ function DevelopmentModeNotice() {
   }
 }
 
-export default UploadPhotoScreen;
+export default SelectImageScreen;

@@ -1,18 +1,18 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import AuthLoadingScreen from "./screens/AuthLoadingScreen";
-import WelcomeScreen from "./screens/WelcomeScreen";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
-import ForgotPassword from "./screens/ForgotPassword";
-import BottomTabNavigator from "./BottomTabNavigator";
-import ProfileScreen from "./screens/ProfileScreen";
-import SettingsScreen from "./screens/SettingsScreen";
-import LoadingModal from "./LoadingModal";
-import { useAppContext } from "../context/AppContext";
+import AuthLoadingScreen from './screens/AuthLoadingScreen';
+import WelcomeScreen from './screens/WelcomeScreen';
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
+import ForgotPassword from './screens/ForgotPassword';
+import BottomTabNavigator from './BottomTabNavigator';
+import ProfileScreen from './screens/ProfileScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import LoadingModal from './LoadingModal';
+import { useAppContext } from '../context/AppContext';
 
 const AuthStack = createStackNavigator();
 const AuthStackNavigator = () => (
@@ -38,13 +38,7 @@ const AppDrawerNavigator = () => (
 export const AppNavigator = ({ isAuth = false, isLoading }) => {
   const context = useAppContext();
   return (
-    <NavigationContainer
-      theme={{
-        colors: {
-          background: "transparent",
-        },
-      }}
-    >
+    <NavigationContainer>
       {context.isAuthenticated ? (
         <AppDrawerNavigator />
       ) : (
