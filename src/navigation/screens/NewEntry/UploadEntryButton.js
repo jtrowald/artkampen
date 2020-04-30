@@ -9,7 +9,7 @@ import { createContribution as CreateContribution } from '../../../graphql/mutat
 import { useNewEntryContext } from '../../../context/NewEntryContext';
 
 const Text = styled.Text`
-  color: white;
+  color: ${Colors.sfBlue};
   padding: 10px;
 `;
 const TouchableOpacity = styled.TouchableOpacity`
@@ -19,20 +19,23 @@ const TouchableOpacity = styled.TouchableOpacity`
   justify-content: center;
 `;
 
-const View = styled.View``;
-
 export const UploadEntryButton = () => {
-  const { selectedImage, selectedFishIndex, fishes } = useNewEntryContext();
+  const {
+    selectedImage,
+    selectedFishIndex,
+    fishes,
+    setShowSuccessModal,
+  } = useNewEntryContext();
   const [loading, setLoading] = useState(false);
   const [opacityAnim] = useState(new Animated.Value(0));
   const navigation = useNavigation();
   const truncated = selectedFishIndex === null || selectedImage === null;
-  console.log(selectedImage);
+
   useEffect(() => {
     navigation.navigate('LoadingModal', { loading });
   }, [loading]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!truncated) {
       Animated.timing(opacityAnim, {
         toValue: 1,
@@ -54,16 +57,15 @@ export const UploadEntryButton = () => {
     const blobData = await imageData.blob();
     try {
       const image = await Storage.put(imageName, blobData, access);
-      console.log('IMAGE:', fishes[selectedFishIndex]?.Id);
       const newContribution = {
-        contributionFishId: fishes[selectedFishIndex]?.Id,
+        contributionFishId: fishes[selectedFishIndex]?.id,
         imageKey: image.key,
         accepted: 'false',
       };
-      const createdContribution = await API.graphql(
+      await API.graphql(
         graphqlOperation(CreateContribution, { input: newContribution }),
       );
-      console.log('CONTRIBUTION: ', createdContribution);
+      setShowSuccessModal(true);
     } catch (err) {
       console.log('error: ', err);
     }
@@ -82,9 +84,11 @@ export const UploadEntryButton = () => {
             opacity: opacityAnim,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: Colors.successBackground,
-            width: 200,
+            borderColor: Colors.sfBlue,
+            borderWidth: 2,
+            width: 280,
             borderRadius: 5,
+            margin: 10,
           },
         ]}
       >

@@ -1,6 +1,6 @@
 import { Entypo } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Animated, Text } from 'react-native';
+import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 
 import Colors from '../../../constants/Colors';
@@ -18,8 +18,8 @@ const MainView = styled.View`
 `;
 
 const ImageView = styled.View`
-  width: ${getUniversalWidth(300)}px;
-  border-color: white;
+  width: ${getUniversalWidth(280)}px;
+  border-color: #b2ddf1;
   border-width: 2px;
   border-radius: 5px;
   border-style: dashed;
@@ -39,7 +39,6 @@ const ButtonView = styled.View`
 `;
 
 const TouchableOpacity = styled.TouchableOpacity`
-  background-color: ${Colors.sfBlue};
   border-radius: 10px;
   flex-direction: row;
   justify-content: center;
@@ -50,13 +49,20 @@ const TouchableOpacity = styled.TouchableOpacity`
 const ButtonText = styled.Text`
   margin-horizontal: ${getUniversalWidth(5)}px;
   margin-right: ${getUniversalWidth(15)}px;
-  color: #fff;
+  color: ${Colors.sfBlue};
 `;
 
 const Icon = styled(Entypo)`
   margin-horizontal: ${getUniversalWidth(5)}px;
   margin-left: ${getUniversalWidth(15)}px;
-  color: white;
+  color: ${Colors.sfBlue};
+`;
+
+const Text = styled.Text`
+  margin-top: 5px;
+  margin-left: 10px;
+  align-self: flex-start;
+  color: ${Colors.sfBlue};
 `;
 
 const noPicImage = require('../../../../assets/images/noPicSelected.png');
@@ -97,7 +103,7 @@ export const SelectImageScreen = () => {
 
   const imageHeight = maxHeightAnim.interpolate({
     inputRange: [0, 5000],
-    outputRange: [0, getUniversalWidth(300)],
+    outputRange: [0, getUniversalWidth(280)],
   });
 
   const componentsOpacity = maxHeightAnim.interpolate({
@@ -107,6 +113,7 @@ export const SelectImageScreen = () => {
 
   return (
     <MainView as={Animated.View} style={{ maxHeight: maxHeightAnim }}>
+      <Text>Välj bild</Text>
       <ImageView
         as={Animated.View}
         style={{ height: imageHeight, opacity: componentsOpacity }}

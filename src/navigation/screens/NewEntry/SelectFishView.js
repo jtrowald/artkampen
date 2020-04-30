@@ -1,6 +1,7 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Animated } from 'react-native';
 import styled from 'styled-components';
 
 import Colors from '../../../constants/Colors';
@@ -14,31 +15,18 @@ const MainView = styled.View`
   align-items: center;
 `;
 
-const SelectButton = styled.TouchableOpacity``;
+const SelectButton = styled.TouchableOpacity`
+  width: ${getUniversalWidth(200)}px;
+`;
 
 const SelectButtonView = styled.View`
-  border-width: 1px;
-  border-color: white;
-  border-radius: 5px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: ${getUniversalWidth(250)}px;
-  background-color: ${Colors.sfBlue}
-  box-shadow: 6px 4px 10px rgba(0,0,0,0.5);
-  margin-bottom: 5px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px;
 `;
 
 const Text = styled.Text`
-  color: white;
-  font-size: 18px;
-  margin-vertical: ${getUniversalWidth(20)}px;
-  margin-horizontal: ${getUniversalWidth(20)}px;
-`;
-
-const StyledIcon = styled(MaterialCommunityIcons)`
-  color: white;
-  margin-right: ${getUniversalWidth(10)}px;
+  color: ${Colors.sfBlue};
 `;
 
 export const SelectFishView = () => {
@@ -49,6 +37,33 @@ export const SelectFishView = () => {
     setSelectedFishIndex,
   } = useNewEntryContext();
   const { showActionSheetWithOptions } = useActionSheet();
+  const [selectLabelFontSize] = useState(new Animated.Value(18));
+  const [selectedFishLabelFontSize] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    if (selectedFishIndex !== null) {
+      Animated.parallel([
+        Animated.timing(selectLabelFontSize, {
+          toValue: 13,
+          duration: 500,
+        }),
+        Animated.timing(selectedFishLabelFontSize, {
+          toValue: 26,
+          duration: 500,
+        }),
+      ]).start();
+    } else {
+      Animated.timing(selectLabelFontSize, {
+        toValue: 18,
+        duration: 500,
+      }).start();
+    }
+  });
+
+  const textHeight = selectedFishLabelFontSize.interpolate({
+    inputRange: [0, 26],
+    outputRange: [0, 100],
+  });
 
   const selectFish = () => {
     const cancelButtonIndex = fishOptions.length - 1;
@@ -64,16 +79,28 @@ export const SelectFishView = () => {
       },
     );
   };
-  console.log(fishes[selectedFishIndex]?.name);
+
+  console.log('FISH', fishes[selectedFishIndex]?.name);
   return (
     <MainView>
       <SelectButton onPress={() => selectFish()}>
         <SelectButtonView>
-          <Text>
+          <Animated.Text
+            style={{ color: Colors.sfBlue, fontSize: selectLabelFontSize }}
+          >
+            {selectedFishIndex !== null && fishes[selectedFishIndex]?.name
+              ? 'Vald fisk'
+              : 'Välj fisk'}
+          </Animated.Text>
+          <Text
+            as={Animated.Text}
+            style={[
+              { fontSize: selectedFishLabelFontSize, maxHeight: textHeight },
+            ]}
+          >
             {(selectedFishIndex !== null && fishes[selectedFishIndex]?.name) ||
-              'Välj fisk'}
+              ''}
           </Text>
-          <StyledIcon name="fish" size={25} />
         </SelectButtonView>
       </SelectButton>
     </MainView>

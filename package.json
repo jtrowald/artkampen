@@ -12,7 +12,6 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@aws-amplify/storage": "^3.1.8",
     "@expo/react-native-action-sheet": "^3.6.0",
     "@expo/vector-icons": "~10.0.6",
     "@react-native-community/masked-view": "0.1.6",

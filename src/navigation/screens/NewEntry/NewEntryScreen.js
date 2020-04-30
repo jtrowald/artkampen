@@ -8,6 +8,8 @@ import { UploadEntryButton } from './UploadEntryButton';
 import { SelectFishView } from './SelectFishView';
 
 import { NewEntryProvider } from '../../../context/NewEntryContext';
+import { SuccessOverlay } from './SuccessOverlay';
+import { ElevatedCard } from './ElevatedCard';
 
 const Wrapper = styled.SafeAreaView`
   display: flex;
@@ -21,22 +23,27 @@ const MainView = styled.View`
   flex: 1;
 `;
 
-export const NewEntryScreen = (props) => {
-  return (
-    <NewEntryProvider>
-      <Wrapper>
-        <HeaderBar {...props} />
-        <MainView>
-          <CollapsableEntryStep step={1} />
+export const NewEntryScreen = (props) => (
+  <NewEntryProvider>
+    <Wrapper>
+      <SuccessOverlay />
+      <HeaderBar {...props} />
+      <MainView>
+        <ElevatedCard step={1}>
+          <CollapsableEntryStep icon={'fish'} />
           <SelectFishView />
-          <CollapsableEntryStep step={2} />
+        </ElevatedCard>
+        <ElevatedCard step={2}>
+          <CollapsableEntryStep icon={'image'} />
           <SelectImageScreen />
-          <CollapsableEntryStep step={3} />
+        </ElevatedCard>
+        <ElevatedCard step={3}>
+          <CollapsableEntryStep icon={'progress-upload'} />
           <UploadEntryButton />
-        </MainView>
-      </Wrapper>
-    </NewEntryProvider>
-  );
-};
+        </ElevatedCard>
+      </MainView>
+    </Wrapper>
+  </NewEntryProvider>
+);
 
 export default NewEntryScreen;

@@ -16,6 +16,7 @@ export const NewEntryProvider = ({ children }) => {
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [fishes, setFishes] = useState([]);
   const [fishOptions, setFishOptions] = useState([]);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const getFishes = async () => {
     await API.graphql(graphqlOperation(ListFish))
@@ -45,6 +46,8 @@ export const NewEntryProvider = ({ children }) => {
         fishes,
         fishOptions,
         setFishOptions,
+        showSuccessModal,
+        setShowSuccessModal,
       }}
     >
       {children}
