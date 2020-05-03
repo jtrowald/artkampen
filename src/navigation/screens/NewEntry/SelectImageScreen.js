@@ -75,7 +75,6 @@ export const SelectImageScreen = () => {
   } = useNewEntryContext();
   const truncated = selectedFishIndex === null;
   const [maxHeightAnim] = useState(new Animated.Value(truncated ? 0 : 10000));
-  console.log(selectedFishIndex);
   const imageFromPicker = async () => {
     const image = await openImagePickerAsync();
     setSelectedImage(image);

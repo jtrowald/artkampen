@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
-import { useNewEntryContext } from '../../../context/NewEntryContext';
+import { Text } from 'react-native';
+import { useCompetitionContext } from '../../../context/CompetitionContext';
+import { useAppContext } from '../../../context/AppContext';
 
 const ElevatedView = styled.View`
   background-color: rgba(240, 240, 245, ${({ inactive }) =>
@@ -12,14 +13,12 @@ const ElevatedView = styled.View`
   flex-direction: row;
 `;
 
-export const ElevatedCard = ({ children, step }) => {
-  const { selectedImage, selectedFishIndex } = useNewEntryContext();
-  const inactive =
-    (step === 2 && selectedFishIndex === null) ||
-    (step === 3 && selectedImage === null);
+export const CompetitionCell = ({ user, position }) => {
+  console.log(user);
   return (
-    <ElevatedView inactive={inactive} trunc>
-      {children}
+    <ElevatedView>
+      <Text>{position}</Text>
+      <Text>{user.username}</Text>
     </ElevatedView>
   );
 };
@@ -29,4 +28,4 @@ ElevatedView.propTypes = {
   step: PropTypes.number,
 };
 
-export default ElevatedCard;
+export default CompetitionCell;

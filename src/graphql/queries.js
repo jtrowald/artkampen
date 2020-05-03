@@ -66,6 +66,49 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
+
+export const test = /* GraphQL */ `
+  query ListUsers {
+    listUsers(filter: { confirmed: { eq: false } }) {
+      items {
+        contributions(sortDirection: ASC) {
+          items {
+            accepted
+            id
+            imageKey
+            fish {
+              name
+            }
+          }
+        }
+        username
+        confirmed
+      }
+    }
+  }
+`;
+
+export const listCompetitionUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        confirmed
+        contributions {
+          nextToken
+        }
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+
 export const getContribution = /* GraphQL */ `
   query GetContribution($id: ID!) {
     getContribution(id: $id) {

@@ -80,7 +80,6 @@ export const SelectFishView = () => {
     );
   };
 
-  console.log('FISH', fishes[selectedFishIndex]?.name);
   return (
     <MainView>
       <SelectButton onPress={() => selectFish()}>

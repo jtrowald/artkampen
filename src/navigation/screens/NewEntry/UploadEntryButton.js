@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import Colors from '../../../constants/Colors';
 import { createContribution as CreateContribution } from '../../../graphql/mutations';
 import { useNewEntryContext } from '../../../context/NewEntryContext';
+import { useAppContext } from '../../../context/AppContext';
 
 const Text = styled.Text`
   color: ${Colors.sfBlue};
@@ -26,11 +27,11 @@ export const UploadEntryButton = () => {
     fishes,
     setShowSuccessModal,
   } = useNewEntryContext();
+  const { authDBUser } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [opacityAnim] = useState(new Animated.Value(0));
   const navigation = useNavigation();
   const truncated = selectedFishIndex === null || selectedImage === null;
-
   useEffect(() => {
     navigation.navigate('LoadingModal', { loading });
   }, [loading]);
@@ -61,6 +62,7 @@ export const UploadEntryButton = () => {
         contributionFishId: fishes[selectedFishIndex]?.id,
         imageKey: image.key,
         accepted: 'false',
+        contributionCreatedById: authDBUser.getUser.id,
       };
       await API.graphql(
         graphqlOperation(CreateContribution, { input: newContribution }),
