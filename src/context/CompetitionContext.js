@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import PropTypes from 'prop-types';
 
-import { test } from '../graphql/queries';
-
 export const CompetitionContext = React.createContext();
 export const CompetitionConsumer = CompetitionContext.Consumer;
 
@@ -13,11 +11,11 @@ export const CompetitionProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
 
   const getUsers = async () => {
-    await API.graphql(graphqlOperation(test))
-      .then((result) => {
-        setUsers(result?.data?.listUsers?.items);
-      })
-      .catch((err) => console.log('Error fetching users: ', err));
+    // await API.graphql(graphqlOperation(test))
+    //   .then((result) => {
+    //     setUsers(result?.data?.listUsers?.items);
+    //   })
+    //   .catch((err) => console.log('Error fetching users: ', err));
   };
 
   useEffect(() => {

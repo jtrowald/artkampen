@@ -31,129 +31,63 @@ export const onDeleteFish = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($owner: String) {
-    onCreateUser(owner: $owner) {
+export const onCreateSubmission = /* GraphQL */ `
+  subscription OnCreateSubmission($owner: String!) {
+    onCreateSubmission(owner: $owner) {
       id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($owner: String) {
-    onUpdateUser(owner: $owner) {
-      id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($owner: String) {
-    onDeleteUser(owner: $owner) {
-      id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const onCreateContribution = /* GraphQL */ `
-  subscription OnCreateContribution {
-    onCreateContribution {
-      id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;
-export const onUpdateContribution = /* GraphQL */ `
-  subscription OnUpdateContribution {
-    onUpdateContribution {
+export const onUpdateSubmission = /* GraphQL */ `
+  subscription OnUpdateSubmission($owner: String!) {
+    onUpdateSubmission(owner: $owner) {
       id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;
-export const onDeleteContribution = /* GraphQL */ `
-  subscription OnDeleteContribution {
-    onDeleteContribution {
+export const onDeleteSubmission = /* GraphQL */ `
+  subscription OnDeleteSubmission($owner: String!) {
+    onDeleteSubmission(owner: $owner) {
       id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;

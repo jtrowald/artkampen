@@ -1,32 +1,19 @@
 {
-    "test": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-sf-artkampen-test-170623-authRole",
-            "UnauthRoleArn": "arn:aws:iam::785210059354:role/amplify-sf-artkampen-test-170623-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::785210059354:role/amplify-sf-artkampen-test-170623-authRole",
-            "Region": "eu-central-1",
-            "DeploymentBucketName": "amplify-sf-artkampen-test-170623-deployment",
-            "UnauthRoleName": "amplify-sf-artkampen-test-170623-unauthRole",
-            "StackName": "amplify-sf-artkampen-test-170623",
-            "StackId": "arn:aws:cloudformation:eu-central-1:785210059354:stack/amplify-sf-artkampen-test-170623/5647ba30-824f-11ea-b4cb-060cd1f69c1a",
-            "AmplifyAppId": "d3njc17rlzufys"
-        }
-    },
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-sf-artkampen-dev-172741-authRole",
-            "UnauthRoleArn": "arn:aws:iam::785210059354:role/amplify-sf-artkampen-dev-172741-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::785210059354:role/amplify-sf-artkampen-dev-172741-authRole",
+            "AuthRoleName": "amplify-sf-artkampen-dev-81117-authRole",
+            "UnauthRoleArn": "arn:aws:iam::785210059354:role/amplify-sf-artkampen-dev-81117-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::785210059354:role/amplify-sf-artkampen-dev-81117-authRole",
             "Region": "eu-central-1",
-            "DeploymentBucketName": "amplify-sf-artkampen-dev-172741-deployment",
-            "UnauthRoleName": "amplify-sf-artkampen-dev-172741-unauthRole",
-            "StackName": "amplify-sf-artkampen-dev-172741",
-            "StackId": "arn:aws:cloudformation:eu-central-1:785210059354:stack/amplify-sf-artkampen-dev-172741/509cbd80-8252-11ea-8083-064a8d32fc9e",
-            "AmplifyAppId": "dl785e2fh2lb0"
+            "DeploymentBucketName": "amplify-sf-artkampen-dev-81117-deployment",
+            "UnauthRoleName": "amplify-sf-artkampen-dev-81117-unauthRole",
+            "StackName": "amplify-sf-artkampen-dev-81117",
+            "StackId": "arn:aws:cloudformation:eu-central-1:785210059354:stack/amplify-sf-artkampen-dev-81117/11b5d4d0-8dce-11ea-80af-02165db3bfb6",
+            "AmplifyAppId": "dd1ak2amyvrlh"
         },
         "categories": {
             "auth": {
-                "sfartkampen167d842e": {}
+                "sfartkampen869f5294": {}
             }
         }
     }

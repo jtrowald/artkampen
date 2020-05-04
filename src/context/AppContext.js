@@ -1,13 +1,8 @@
-//Context for the App
-
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import Auth from '@aws-amplify/auth';
 import { API, graphqlOperation } from 'aws-amplify';
-
-import { getUser as GetUser } from '../graphql/queries';
-import { createUser as CreateUser } from '../graphql/mutations';
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -18,37 +13,8 @@ export const AppProvider = (props) => {
   const [isReady, setIsReady] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authUser, setAuthUser] = useState(null);
-  const [authDBUser, setAuthDBUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
   const [signUpErrors, setSignUpErrors] = useState(null);
-
-  const createDBUser = async (user) => {
-    console.log('CREATE USER: ', user);
-    await API.graphql(
-      graphqlOperation(CreateUser, {
-        input: {
-          username: user.username,
-          id: user.attributes.sub,
-          confirmed: false,
-        },
-      }),
-    )
-      .then((result) => setAuthDBUser(result?.data))
-      .catch((err) => console.log('Error creating db user: ', err));
-  };
-
-  const getCurrentDBUser = async (user) => {
-    await API.graphql(graphqlOperation(GetUser, { id: user.attributes.sub }))
-      .then((result) => {
-        console.log(('GETDBUSER', result));
-        if (result?.data?.getUser !== null) {
-          setAuthDBUser(result?.data);
-        } else {
-          createDBUser(user);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
   const logout = async () => {
     await Auth.signOut()
@@ -62,7 +28,6 @@ export const AppProvider = (props) => {
   const loggedInSuccess = (user) => {
     setIsReady(true);
     setAuthUser(user.signInUserSession.accessToken.payload);
-    getCurrentDBUser(user);
     setIsAuthenticated(true);
   };
 
@@ -133,7 +98,6 @@ export const AppProvider = (props) => {
         isAuthenticated,
         logout,
         authUser,
-        authDBUser,
         signIn,
         signUp,
         confirmSignUp,

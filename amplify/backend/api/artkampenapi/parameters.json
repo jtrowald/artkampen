@@ -1,10 +1,10 @@
 {
-    "AppSyncApiName": "sfartkampenapi",
+    "AppSyncApiName": "artkampenapi",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": "false",
     "AuthCognitoUserPoolId": {
         "Fn::GetAtt": [
-            "authsfartkampen167d842e",
+            "authsfartkampen869f5294",
             "Outputs.UserPoolId"
         ]
     }

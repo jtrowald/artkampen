@@ -40,147 +40,72 @@ export const deleteFish = /* GraphQL */ `
     }
   }
 `;
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
+export const createSubmission = /* GraphQL */ `
+  mutation CreateSubmission(
+    $input: CreateSubmissionInput!
+    $condition: ModelSubmissionConditionInput
   ) {
-    createUser(input: $input, condition: $condition) {
+    createSubmission(input: $input, condition: $condition) {
       id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
-      id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const createContribution = /* GraphQL */ `
-  mutation CreateContribution(
-    $input: CreateContributionInput!
-    $condition: ModelContributionConditionInput
-  ) {
-    createContribution(input: $input, condition: $condition) {
-      id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;
-export const updateContribution = /* GraphQL */ `
-  mutation UpdateContribution(
-    $input: UpdateContributionInput!
-    $condition: ModelContributionConditionInput
+export const updateSubmission = /* GraphQL */ `
+  mutation UpdateSubmission(
+    $input: UpdateSubmissionInput!
+    $condition: ModelSubmissionConditionInput
   ) {
-    updateContribution(input: $input, condition: $condition) {
+    updateSubmission(input: $input, condition: $condition) {
       id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;
-export const deleteContribution = /* GraphQL */ `
-  mutation DeleteContribution(
-    $input: DeleteContributionInput!
-    $condition: ModelContributionConditionInput
+export const deleteSubmission = /* GraphQL */ `
+  mutation DeleteSubmission(
+    $input: DeleteSubmissionInput!
+    $condition: ModelSubmissionConditionInput
   ) {
-    deleteContribution(input: $input, condition: $condition) {
+    deleteSubmission(input: $input, condition: $condition) {
       id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;

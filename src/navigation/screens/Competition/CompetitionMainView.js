@@ -1,3 +1,4 @@
+////COMPETITIONMAINVIEW
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -5,7 +6,7 @@ import _ from 'lodash';
 import { FlatList } from 'react-native';
 import { useCompetitionContext } from '../../../context/CompetitionContext';
 import { useAppContext } from '../../../context/AppContext';
-import CompetitionCell from './CompetitionCell';
+import { CompetitionCell } from './CompetitionCell';
 
 const ElevatedView = styled.View`
   background-color: rgba(240, 240, 245, ${({ inactive }) =>
@@ -17,10 +18,7 @@ const ElevatedView = styled.View`
 
 export const CompetitionMainView = () => {
   const { users } = useCompetitionContext();
-  const sortedUsers = _.sortBy(
-    users,
-    (user) => user.contributions.items.length,
-  );
+  const sortedUsers = _.sortBy(users, (user) => user.submissions.items.length);
   return (
     <FlatList
       data={sortedUsers}

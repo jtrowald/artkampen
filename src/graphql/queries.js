@@ -28,134 +28,48 @@ export const listFishs = /* GraphQL */ `
     }
   }
 `;
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
+export const getSubmission = /* GraphQL */ `
+  query GetSubmission($id: ID!) {
+    getSubmission(id: $id) {
       id
-      username
-      confirmed
-      contributions {
-        items {
-          id
-          imageKey
-          accepted
-        }
-        nextToken
-      }
-      owner
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-
-export const test = /* GraphQL */ `
-  query ListUsers {
-    listUsers(filter: { confirmed: { eq: false } }) {
-      items {
-        contributions(sortDirection: ASC) {
-          items {
-            accepted
-            id
-            imageKey
-            fish {
-              name
-            }
-          }
-        }
-        username
-        confirmed
-      }
-    }
-  }
-`;
-
-export const listCompetitionUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-
-export const getContribution = /* GraphQL */ `
-  query GetContribution($id: ID!) {
-    getContribution(id: $id) {
-      id
-      createdBy {
-        id
-        username
-        confirmed
-        contributions {
-          nextToken
-        }
-        owner
-      }
       fish {
         id
         name
         description
         owner
       }
-      imageKey
+      image {
+        bucket
+        region
+        key
+      }
       accepted
+      owner
     }
   }
 `;
-export const listContributions = /* GraphQL */ `
-  query ListContributions(
-    $filter: ModelContributionFilterInput
+export const listSubmissions = /* GraphQL */ `
+  query ListSubmissions(
+    $filter: ModelSubmissionFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listContributions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSubmissions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        createdBy {
-          id
-          username
-          confirmed
-          owner
-        }
         fish {
           id
           name
           description
           owner
         }
-        imageKey
+        image {
+          bucket
+          region
+          key
+        }
         accepted
+        owner
       }
       nextToken
     }

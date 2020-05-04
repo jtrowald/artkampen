@@ -1,10 +1,8 @@
-//Context for the App
-
 import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import PropTypes from 'prop-types';
 
-import { getUser as GetUser, listFishs as ListFish } from '../graphql/queries';
+import { listFishs as ListFish } from '../graphql/queries';
 
 export const NewEntryContext = React.createContext();
 export const NewEntryConsumer = NewEntryContext.Consumer;
@@ -21,6 +19,7 @@ export const NewEntryProvider = ({ children }) => {
   const getFishes = async () => {
     await API.graphql(graphqlOperation(ListFish))
       .then((result) => {
+        console.log(result);
         setFishes(result?.data?.listFishs?.items);
       })
       .catch((err) => console.log('Error fetching fishes: ', err));

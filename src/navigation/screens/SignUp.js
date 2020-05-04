@@ -51,7 +51,7 @@ export const SignUp = () => {
   };
 
   const confirmSignUpPressed = async () => {
-    confirmSignUp(username, confirmCode);
+    confirmSignUp(email, confirmCode);
   };
 
   const validateEmail = () => {
