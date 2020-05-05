@@ -59,6 +59,16 @@ export const createSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
       owner
     }
   }
@@ -82,6 +92,16 @@ export const updateSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
       owner
     }
   }
@@ -105,6 +125,82 @@ export const deleteSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
+      owner
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
       owner
     }
   }

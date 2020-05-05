@@ -14,6 +14,15 @@ const ElevatedView = styled.View`
 `;
 
 export const CompetitionCell = ({ user, position }) => {
+  // async function fetchImage(key) {
+  //   try {
+  //     const imageData = await Storage.get(key)
+  //     updateAvatarUrl(imageData)
+  //   } catch(err) {
+  //     console.log('error: ', err)
+  //   }
+  // }
+
   console.log(user);
   return (
     <ElevatedView>

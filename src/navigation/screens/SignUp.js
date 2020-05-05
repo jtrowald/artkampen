@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 
 import styled from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
+import SignUpOverlay from './signUp/SignUpOverlay';
 
 const StyledInput = styled.TextInput`
   height: 50px;
@@ -30,56 +31,76 @@ const WarningText = styled.Text`
 const ConfirmView = styled.View``;
 
 export const SignUp = () => {
+  const [name, setName] = useState();
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
   const [memberId, setMemberId] = useState();
   const [confirmCode, setConfirmCode] = useState();
   const [emailValidation, setEmailValidation] = useState(true);
   const [passwordValidation, setPasswordValidation] = useState(true);
+  const [showCode, setShowCode] = useState(false);
 
   const {
     signUpErrors,
     signUp,
     confirmSignUp,
     isAuthenticated,
-    authUser,
   } = useAppContext();
 
   const signUpPressed = async () => {
-    signUp(username, password, email, memberId);
+    signUp(username, password, memberId, name);
+    setShowCode(true);
   };
 
   const confirmSignUpPressed = async () => {
-    confirmSignUp(email, confirmCode);
+    confirmSignUp(username, confirmCode);
   };
 
-  const validateEmail = () => {
+  const validateEmail = (email) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setEmailValidation(re.test(String(email).toLowerCase()));
   };
 
   const validatePassword = () => {
-    setPasswordValidation(password.length >= 8);
+    setPasswordValidation(password?.length >= 8);
   };
 
   const buttonDisabled =
+    !name ||
     !username ||
     !password ||
-    !email ||
     !memberId ||
     !emailValidation ||
     !passwordValidation;
 
+  const errorMessage = (error) => {
+    switch (error.code) {
+      case 'UsernameExistsException':
+        return 'Användarnamnet är redan registrerat';
+
+      default:
+        return signUpErrors.code;
+    }
+  };
+
   return (
     <MainView>
+      <SignUpOverlay />
+      <WarningText>{signUpErrors && errorMessage(signUpErrors)}</WarningText>
+      <StyledInput
+        onChangeText={(value) => setName(value)}
+        placeholder="För- och efternamn"
+        placeholderTextColor="white"
+        autoCompleteType="name"
+      />
       <StyledInput
         onChangeText={(value) => setUserName(value)}
-        placeholder="Användarnamn"
+        placeholder="Email"
         placeholderTextColor="white"
-        autoCompleteType="username"
+        autoCompleteType="email"
+        onBlur={() => validateEmail(username)}
       />
-      <WarningText>{signUpErrors}</WarningText>
+
       <StyledInput
         onChangeText={(value) => setPassword(value)}
         placeholder="Lösenord"
@@ -92,16 +113,6 @@ export const SignUp = () => {
         {!passwordValidation && 'Måste vara minst 8 bokstäver eller siffror'}
       </WarningText>
       <StyledInput
-        onChangeText={(value) => setEmail(value)}
-        placeholder="Email"
-        placeholderTextColor="white"
-        autoCompleteType="email"
-        onBlur={() => validateEmail()}
-      />
-      <WarningText>
-        {!emailValidation && 'Ange en korrekt email-adress'}
-      </WarningText>
-      <StyledInput
         onChangeText={(value) => setMemberId(value)}
         placeholder="Medlems-id"
         placeholderTextColor="white"
@@ -112,7 +123,7 @@ export const SignUp = () => {
         title="Skapa konto"
         onPress={() => signUpPressed()}
       />
-      {authUser && !isAuthenticated && (
+      {showCode && !isAuthenticated && (
         <ConfirmView>
           <Text>Skriv in koden som du fått till mailen</Text>
           <StyledInput

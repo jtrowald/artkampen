@@ -3,6 +3,9 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import Auth from '@aws-amplify/auth';
 import { API, graphqlOperation } from 'aws-amplify';
+import { createUser as CreateUser } from '../graphql/mutations';
+import { getUser as GetUser } from '../graphql/queries';
+import { useNavigation } from '@react-navigation/native';
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -13,8 +16,41 @@ export const AppProvider = (props) => {
   const [isReady, setIsReady] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authUser, setAuthUser] = useState(null);
+  const [authDBUser, setAuthDBUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
   const [signUpErrors, setSignUpErrors] = useState(null);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+
+  const createDBUser = async (user) => {
+    console.log('CREATE USER: ', user);
+    await API.graphql(
+      graphqlOperation(CreateUser, {
+        input: {
+          email: user.username,
+          id: user.sub,
+          confirmed: false,
+          memberId: 1234,
+          accepted: false,
+        },
+      }),
+    )
+      .then((result) => setAuthDBUser(result?.data))
+      .catch((err) => console.log('Error creating db user: ', err));
+  };
+
+  const getCurrentDBUser = async (user) => {
+    console.log('GET USER:', user);
+    await API.graphql(graphqlOperation(GetUser, { id: user.attributes.sub }))
+      .then((result) => {
+        console.log(('GETDBUSER', result));
+        if (result?.data?.getUser !== null) {
+          setAuthDBUser(result?.data);
+        } else {
+          createDBUser(user);
+        }
+      })
+      .catch((err) => console.log('Could not fetch DB user: ', err));
+  };
 
   const logout = async () => {
     await Auth.signOut()
@@ -36,25 +72,24 @@ export const AppProvider = (props) => {
       username,
       password,
     })
-      .then((user) => {
+      .then(async (user) => {
+        await getCurrentDBUser(user);
         loggedInSuccess(user);
       })
       .catch((err) => console.log('Error signing in: ', err));
   };
 
-  const signUp = async (username, password, email, memberId) => {
+  const signUp = async (username, password, memberId) => {
     await Auth.signUp({
       username,
       password,
       attributes: {
-        email,
         'custom:memberId': `${memberId}`,
       },
     })
       .then((user) => {
-        console.log('SIGNUP:', user);
+        console.log('Signed up user: ', user);
         setSignUpErrors(null);
-        setAuthUser(user);
       })
       .catch((err) => {
         console.log('Error signing up: ', err);
@@ -65,7 +100,7 @@ export const AppProvider = (props) => {
   const confirmSignUp = async (username, code) => {
     await Auth.confirmSignUp(username, code)
       .then(() => {
-        //TO SIGN IN WINDOW
+        setShowSignUpModal(true);
       })
       .catch((err) => {
         console.log('Error confirm signing up: ', err);
@@ -86,6 +121,7 @@ export const AppProvider = (props) => {
         setUserToken({
           userToken: user.signInUserSession.accessToken.jwtToken,
         });
+        getCurrentDBUser(user);
         loggedInSuccess(user);
       })
       .catch((err) => console.log('AuthenticationError: ', err));
@@ -98,10 +134,13 @@ export const AppProvider = (props) => {
         isAuthenticated,
         logout,
         authUser,
+        authDBUser,
         signIn,
         signUp,
         confirmSignUp,
         signUpErrors,
+        showSignUpModal,
+        setShowSignUpModal,
       }}
     >
       {props.children}

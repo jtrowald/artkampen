@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { TouchableOpacity, Button, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import styled from "styled-components";
-import { useAppContext } from "../../context/AppContext";
+import React, { useState } from 'react';
+import { TouchableOpacity, Button, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import styled from 'styled-components';
+import { useAppContext } from '../../context/AppContext';
 
 const StyledInput = styled.TextInput`
   height: 50px;
   border-bottom-width: 3px;
   border-bottom-color: white;
   margin: 20px;
+  color: white;
 `;
 
 const Text = styled.Text`
@@ -54,10 +55,10 @@ export const SignIn = (props) => {
         autoCompleteType="password"
       />
       <ButtonView>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text>Skapa konto</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
           <Text>Glömt lösenord?</Text>
         </TouchableOpacity>
       </ButtonView>

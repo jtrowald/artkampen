@@ -47,6 +47,16 @@ export const onCreateSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
       owner
     }
   }
@@ -67,6 +77,16 @@ export const onUpdateSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
       owner
     }
   }
@@ -87,6 +107,73 @@ export const onDeleteSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
+      owner
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($owner: String!) {
+    onCreateUser(owner: $owner) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($owner: String!) {
+    onUpdateUser(owner: $owner) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($owner: String!) {
+    onDeleteUser(owner: $owner) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
       owner
     }
   }

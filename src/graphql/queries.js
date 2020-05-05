@@ -44,6 +44,16 @@ export const getSubmission = /* GraphQL */ `
         key
       }
       accepted
+      user {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
+        owner
+      }
       owner
     }
   }
@@ -69,6 +79,53 @@ export const listSubmissions = /* GraphQL */ `
           key
         }
         accepted
+        user {
+          id
+          accepted
+          memberId
+          email
+          owner
+        }
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      accepted
+      memberId
+      email
+      submissions {
+        items {
+          id
+          accepted
+          owner
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        accepted
+        memberId
+        email
+        submissions {
+          nextToken
+        }
         owner
       }
       nextToken
