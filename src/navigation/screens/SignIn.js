@@ -18,6 +18,13 @@ const Text = styled.Text`
   color: white;
 `;
 
+const ConfirmationText = styled.Text`
+  font-size: 19px;
+  padding: 10px;
+  color: white;
+  align-self: center;
+`;
+
 const ButtonView = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
@@ -28,16 +35,33 @@ const MainView = styled.View`
   flex: 1;
 `;
 
+const ConfirmationTouchableOpacity = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const ConfirmationView = styled.View`
+  border-top-width: 1px;
+  border-color: white;
+  margin: 10px;
+`;
+
 export const SignIn = (props) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const [confirmationCode, setConfirmationCode] = useState();
   const navigation = useNavigation();
   // const [email, setEmail] = useState();
   // const [memberId, setMemberId] = useState();
   // const [user, setUser] = useState();
-  const context = useAppContext();
-  const signIn = () => {
-    context.signIn(username, password);
+  const {
+    signIn,
+    confirmSignUp,
+    signInErrors,
+    resendConfirmationCode,
+  } = useAppContext();
+  const signInPressed = () => {
+    signIn(username, password);
   };
   return (
     <MainView>
@@ -62,7 +86,27 @@ export const SignIn = (props) => {
           <Text>Glömt lösenord?</Text>
         </TouchableOpacity>
       </ButtonView>
-      <Button color="white" title="Logga in" onPress={() => signIn()} />
+      <Button color="white" title="Logga in" onPress={() => signInPressed()} />
+      {signInErrors && signInErrors === 'UserNotConfirmedException' && (
+        <ConfirmationView>
+          <ConfirmationText>Användaren är inte bekräftad</ConfirmationText>
+          <StyledInput
+            onChangeText={(value) => setConfirmationCode(value)}
+            placeholder="Kod"
+            placeholderTextColor="white"
+          />
+          <Button
+            color="white"
+            title="Bekräfta email"
+            onPress={() => confirmSignUp(username, confirmationCode)}
+          />
+          <ConfirmationTouchableOpacity
+            onPress={() => resendConfirmationCode(username)}
+          >
+            <Text>Skicka kod igen</Text>
+          </ConfirmationTouchableOpacity>
+        </ConfirmationView>
+      )}
     </MainView>
   );
 };

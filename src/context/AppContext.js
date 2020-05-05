@@ -19,6 +19,7 @@ export const AppProvider = (props) => {
   const [authDBUser, setAuthDBUser] = useState(null);
   const [userToken, setUserToken] = useState(null);
   const [signUpErrors, setSignUpErrors] = useState(null);
+  const [signInErrors, setSignInErrors] = useState(null);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   const createDBUser = async (user) => {
@@ -26,10 +27,9 @@ export const AppProvider = (props) => {
     await API.graphql(
       graphqlOperation(CreateUser, {
         input: {
-          email: user.username,
-          id: user.sub,
-          confirmed: false,
-          memberId: 1234,
+          email: user.attributes.email,
+          id: user.attributes.sub,
+          memberId: user.attributes['custom:memberId'],
           accepted: false,
         },
       }),
@@ -76,7 +76,10 @@ export const AppProvider = (props) => {
         await getCurrentDBUser(user);
         loggedInSuccess(user);
       })
-      .catch((err) => console.log('Error signing in: ', err));
+      .catch((err) => {
+        setSignInErrors(err.code);
+        console.log('Error signing in: ', err);
+      });
   };
 
   const signUp = async (username, password, memberId) => {
@@ -87,8 +90,7 @@ export const AppProvider = (props) => {
         'custom:memberId': `${memberId}`,
       },
     })
-      .then((user) => {
-        console.log('Signed up user: ', user);
+      .then(() => {
         setSignUpErrors(null);
       })
       .catch((err) => {
@@ -105,6 +107,16 @@ export const AppProvider = (props) => {
       .catch((err) => {
         console.log('Error confirm signing up: ', err);
         setSignUpErrors(err.message);
+      });
+  };
+
+  const resendConfirmationCode = async (username) => {
+    await Auth.resendSignUp(username)
+      .then(() => {
+        console.log('code resent succesfully');
+      })
+      .catch((err) => {
+        console.log('error resending code: ', err);
       });
   };
 
@@ -138,9 +150,11 @@ export const AppProvider = (props) => {
         signIn,
         signUp,
         confirmSignUp,
+        signInErrors,
         signUpErrors,
         showSignUpModal,
         setShowSignUpModal,
+        resendConfirmationCode,
       }}
     >
       {props.children}
