@@ -16,15 +16,11 @@ type Submission @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   fish: Fish! @connection
   image: PhotoS3Info!
-  accepted: Boolean!
+  accepted: Boolean
   user: User! @connection
 }
 
-type User
-  @model
-  @auth(
-    rules: [{ allow: owner }, { allow: private, operations: [read, create] }]
-  ) {
+type User @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   accepted: Boolean!
   memberId: String!

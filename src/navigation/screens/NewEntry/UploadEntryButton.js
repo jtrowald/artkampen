@@ -7,6 +7,7 @@ import Colors from '../../../constants/Colors';
 import { createSubmission as CreateSubmission } from '../../../graphql/mutations';
 import { useNewEntryContext } from '../../../context/NewEntryContext';
 import config from '../../../../aws-exports';
+import useAppContext from '../../../context/AppContext';
 
 const Text = styled.Text`
   color: ${Colors.sfBlue};
@@ -26,6 +27,7 @@ export const UploadEntryButton = () => {
     fishes,
     setShowSuccessModal,
   } = useNewEntryContext();
+  const { authDBUser } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [opacityAnim] = useState(new Animated.Value(0));
   const navigation = useNavigation();
@@ -74,28 +76,30 @@ export const UploadEntryButton = () => {
       key,
       region,
     };
+    console.log(authDBUser.id);
     const newSubmission = {
       submissionFishId: fishes[selectedFishIndex]?.id,
       accepted: 'false',
       image: fileForUpload,
+      submissionUserId: authDBUser?.id,
     };
 
-    await API.graphql(
-      graphqlOperation(CreateSubmission, { input: newSubmission }),
-    )
-      .then(async (submission) => {
-        await Storage.vault
-          .put(key, blobData, {
-            contentType: 'image/jpeg',
-            metadata: {
-              owner: user.username,
-              submissionid: submission.data.createSubmission.id,
-            },
+    await Storage.put(key, blobData, {
+      contentType: 'image/jpeg',
+      metadata: {
+        owner: user.username,
+      },
+    })
+      .then(async () => {
+        await API.graphql(
+          graphqlOperation(CreateSubmission, { input: newSubmission }),
+        )
+          .then(() => {
+            setShowSuccessModal(true);
           })
-          .then(() => setShowSuccessModal(true))
-          .catch((err) => console.log('Error uploading photo', err));
+          .catch((err) => console.log('Error creating sumbission', err));
       })
-      .catch((err) => console.log('Error creating sumbission', err));
+      .catch((err) => console.log('Error uploading photo', err));
 
     setLoading(false);
   };

@@ -34,7 +34,7 @@ export const AppProvider = (props) => {
         },
       }),
     )
-      .then((result) => setAuthDBUser(result?.data))
+      .then((result) => setAuthDBUser(result?.data?.getUser))
       .catch((err) => console.log('Error creating db user: ', err));
   };
 
@@ -44,7 +44,7 @@ export const AppProvider = (props) => {
       .then((result) => {
         console.log(('GETDBUSER', result));
         if (result?.data?.getUser !== null) {
-          setAuthDBUser(result?.data);
+          setAuthDBUser(result?.data?.getUser);
         } else {
           createDBUser(user);
         }
@@ -139,6 +139,7 @@ export const AppProvider = (props) => {
       .catch((err) => console.log('AuthenticationError: ', err));
   }, []);
 
+  console.log(authDBUser);
   return (
     <AppContext.Provider
       value={{
